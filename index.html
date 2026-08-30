@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <title>ROAD 95 — Foundation Dashboard</title>
+  <style>
+    :root{
+      --bg:#09111f; --panel:#101a2c; --card:#152239; --card2:#0e192b;
+      --text:#f4f7fb; --muted:#9eb0c9; --border:#263650;
+      --accent:#68d391; --accent2:#78a7ff; --warn:#ffd166; --danger:#ff7b7b;
+      --purple:#b392f0;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:linear-gradient(180deg,#08101d 0%,#0a1424 100%);
+      color:var(--text);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:20px 16px 44px}
+    .hero{
+      display:grid;grid-template-columns:1.6fr .7fr .7fr;gap:14px;margin-bottom:16px;
+    }
+    .card,.panel{border:1px solid var(--border);border-radius:20px;background:rgba(21,34,57,.93)}
+    .card{padding:18px}.panel{padding:18px}
+    .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800}
+    h1{margin:4px 0 0;font-size:clamp(26px,4vw,42px);line-height:1.05}
+    h2{font-size:19px;margin:0}
+    .muted{color:var(--muted)}
+    .metric{font-size:34px;font-weight:850;margin-top:6px}
+    .metric small{font-size:14px;font-weight:650}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+    .days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+    button{
+      appearance:none;border:1px solid var(--border);background:var(--card2);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-size:15px;font-weight:750;cursor:pointer;min-height:44px
+    }
+    button.active{background:#173451;border-color:#4e79b8}
+    button.done{outline:1px solid var(--accent)}
+    button.primary{background:#173a2a;border-color:#2f7d50}
+    button:hover{filter:brightness(1.08)}
+    .session{margin-top:12px;padding:16px;border-radius:16px;background:#0c1728;border:1px solid var(--border)}
+    .sessiontop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    ul{padding-left:20px;margin:12px 0 0}.session li{margin:7px 0}
+    .pill{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800}
+    .kpi{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+    .kpi:last-child{border-bottom:0}
+    .bars{display:grid;gap:13px;margin-top:15px}
+    .barline{display:flex;justify-content:space-between;font-size:14px;gap:10px}
+    .track{height:9px;border-radius:999px;background:#0b1526;overflow:hidden;margin-top:5px}
+    .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--purple))}
+    form{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+    label{font-size:13px;color:var(--muted);font-weight:650}
+    input{
+      width:100%;margin-top:6px;min-height:44px;border:1px solid var(--border);border-radius:12px;
+      background:#0b1526;color:var(--text);padding:10px 12px;font-size:16px
+    }
+    .formactions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+    .status{margin-top:12px;padding:12px;border-radius:14px;background:#0b1526;border:1px solid var(--border)}
+    .gates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+    .gate{padding:14px;border-radius:15px;background:#0b1526;border:1px solid var(--border)}
+    .footer{margin-top:16px;color:var(--muted);font-size:12px;text-align:center}
+    .note{margin-top:8px;font-size:12px;color:var(--muted)}
+    @media(max-width:850px){
+      .hero{grid-template-columns:1fr 1fr}
+      .hero .main{grid-column:1/-1}
+      .days{grid-template-columns:repeat(4,1fr)}
+      .grid2{grid-template-columns:1fr}
+      form{grid-template-columns:1fr 1fr}
+      .gates{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:520px){
+      .wrap{padding:14px 12px 30px}
+      .hero{grid-template-columns:1fr 1fr}
+      .card,.panel{border-radius:17px;padding:14px}
+      .days{grid-template-columns:repeat(2,1fr)}
+      form{grid-template-columns:1fr}
+      .gates{grid-template-columns:1fr}
+      .formactions{grid-column:1}
+      .sessiontop{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="card main">
+      <div class="eyebrow">ROAD 95 · Fase actual</div>
+      <h1>FOUNDATION ATHLETE</h1>
+      <p class="muted">Bloque inicial · 8 semanas · Inicio 31/08/2026</p>
+      <span class="pill">Sistema operativo de entrenamiento</span>
+    </div>
+    <div class="card"><div class="eyebrow">Peso baseline</div><div class="metric">112.1 <small>kg</small></div><div class="muted">Checkpoint: 95 kg</div></div>
+    <div class="card"><div class="eyebrow">Approach jump</div><div class="metric">39 <small>cm</small></div><div class="muted">Meta 12m: 50+ cm</div></div>
+  </section>
+
+  <section class="panel">
+    <div class="sessiontop">
+      <div><h2>Semana de entrenamiento</h2><div class="muted">Selecciona un día, revisa la sesión y márcala cuando la completes.</div></div>
+      <span class="pill"><span id="weekCount">0</span>/7 completados</span>
+    </div>
+    <div id="dayTabs" class="days"></div>
+    <div id="sessionPanel" class="session"></div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel">
+      <div class="sessiontop">
+        <div><h2>KPIs oficiales</h2><div class="muted">Baseline y benchmark de 3 meses</div></div>
+        <button id="toggleKpi">Ver metas</button>
+      </div>
+      <div id="kpiList" style="margin-top:10px"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Athletic Development · camino al dunk</h2>
+      <p class="muted">Foundation construye fuerza relativa, potencia, aterrizaje y tolerancia. El dunk es un objetivo atlético de largo plazo, no una puerta de salida de esta fase.</p>
+      <div class="bars">
+        <div><div class="barline"><span>Approach actual</span><strong>39 cm</strong></div><div class="track"><div class="fill" style="width:46%"></div></div></div>
+        <div><div class="barline"><span>Meta 3 meses</span><strong>43 cm</strong></div><div class="track"><div class="fill" style="width:51%"></div></div></div>
+        <div><div class="barline"><span>Meta 6 meses</span><strong>46–48 cm</strong></div><div class="track"><div class="fill" style="width:56%"></div></div></div>
+        <div><div class="barline"><span>Meta 12 meses</span><strong>50+ cm</strong></div><div class="track"><div class="fill" style="width:60%"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top:14px">
+    <div class="sessiontop">
+      <div><h2>Weekly Check</h2><div class="muted">Completa el domingo para obtener una recomendación operativa.</div></div>
+      <span id="readinessBadge" class="pill">Sin evaluar</span>
+    </div>
+    <form id="weeklyForm">
+      <label>Peso promedio (kg)<input id="weight" type="number" min="60" max="180" step="0.1" placeholder="112.1"></label>
+      <label>Adherencia (%)<input id="adherence" type="number" min="0" max="100" step="1" placeholder="85"></label>
+      <label>Fatiga general (0–10)<input id="fatigue" type="number" min="0" max="10" step="1" placeholder="4"></label>
+      <label>Dolor lumbar (0–10)<input id="backPain" type="number" min="0" max="10" step="1" placeholder="2"></label>
+      <div class="formactions">
+        <button class="primary" type="submit">Evaluar semana</button>
+        <button id="resetWeek" type="button">Reiniciar semana</button>
+      </div>
+    </form>
+    <div id="weeklyMessage" class="status">Usaremos estos datos como guía operativa del entrenamiento.</div>
+    <div class="note">Los datos introducidos se guardan localmente en este navegador/dispositivo.</div>
+  </section>
+
+  <section class="panel" style="margin-top:14px">
+    <h2>Puertas de salida de Foundation</h2>
+    <div class="gates">
+      <div class="gate"><strong>1 · Composición</strong><div class="muted">Peso/cintura ↓ sin deterioro relevante del rendimiento.</div></div>
+      <div class="gate"><strong>2 · Fuerza</strong><div class="muted">Progreso cuantificable y mayor fuerza relativa.</div></div>
+      <div class="gate"><strong>3 · Motor</strong><div class="muted">Más capacidad aeróbica y recuperación.</div></div>
+      <div class="gate"><strong>4 · Robustness</strong><div class="muted">Tobillos, rodillas, caderas y tronco toleran progresión.</div></div>
+      <div class="gate"><strong>5 · Athletic Readiness</strong><div class="muted">Saltar, aterrizar, acelerar y frenar con control.</div></div>
+      <div class="gate"><strong>6 · Consistencia</strong><div class="muted">6–8 semanas razonablemente consistentes y toleradas.</div></div>
+    </div>
+  </section>
+
+  <div class="footer">ROAD 95 · FOUNDATION ATHLETE · Dashboard local</div>
+</div>
+
+<script>
+const days=[
+{name:'Lun',title:'Strength A + Basket',load:'ALTA',items:['Back Squat 3×6 · 45–50 kg · RIR 3','Bench Press 3×6 · 35–40 kg · RIR 2–3','Barbell Row 3×8','Romanian Deadlift 2×8','Pull-ups 4 series submáximas · referencia 2+2+1+1','Lateral Raises 2×12–15','Dead Bug 3×6–8/lado','Basket 18:00–21:00']},
+{name:'Mar',title:'Recovery + Basket',load:'BAJA AM',items:['Caminata suave 5 min','Ankle Rocks 2×10/lado','90/90 Hip Rotations 2×8/lado','Cat-Camel 8–10','Thoracic Rotations 2×8/lado','Hip Flexor dinámico 2×30 s/lado','Shoulder Wall Slides 2×10','Basket 18:00–19:30']},
+{name:'Mié',title:'Motor',load:'MODERADA',items:['5 min caminata rápida','25 min cardio fácil / run-walk','Opción: 2 min trote + 2 min caminata ×6','RPE 3–4/10 · conversación posible','Side Plank 2×20–30 s/lado']},
+{name:'Jue',title:'Movement & Robustness + Basket',load:'BAJA AM',items:['Calf Raise 3×12','Sóleo 3×12','Tibialis Raise 3×15','Split Squat isométrico 2×20–30 s/lado','Single-leg Balance 2×30 s/lado','Glute Bridge 3×12','Lateral Band Walk 2×10 pasos/lado','Copenhagen corto 2×15–20 s/lado','Pallof Press 2×10/lado','Basket 18:00–19:30']},
+{name:'Vie',title:'Strength B + Power',load:'ALTA',items:['Vertical Jump 3×3 · máxima calidad','Deadlift 3×5 · 50–60 kg inicial','Overhead Press 3×5 · ~25 kg','Bulgarian Split Squat 3×8/lado','Pull-ups 5 series submáximas','Incline Bench Press 3×8','Row 3×8–10','Biceps Curl 2–3×10–12','Triceps 2–3×10–12','Suitcase Carry 3×20–30 m/lado']},
+{name:'Sáb',title:'Athletic Development',load:'ADAPTATIVA',items:['Preparación 5–10 min','Snap Down → Athletic Stance 3×5','Pogo Jumps 3×10','Broad Jump 3×3','Lateral Bounds 3×4/lado','Aceleración 6×10 m','Desaceleración 4–6 reps','Defensive Shuffle 4×10–15 s','Bear Crawl 3×10–15 m']},
+{name:'Dom',title:'OFF / Active Recovery',load:'RECOVERY',items:['Descanso completo o caminata suave 20–30 min','Movilidad suave 5–10 min','Completar Weekly Check']}
+];
+
+let selected=0;
+let completed=JSON.parse(localStorage.getItem('road95_completed')||'[false,false,false,false,false,false,false]');
+const tabs=document.getElementById('dayTabs'), panel=document.getElementById('sessionPanel'), counter=document.getElementById('weekCount');
+
+function saveCompleted(){localStorage.setItem('road95_completed',JSON.stringify(completed));}
+function renderTabs(){
+  tabs.innerHTML='';
+  days.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className=(i===selected?'active ':'')+(completed[i]?'done':'');
+    b.textContent=(completed[i]?'✓ ':'')+d.name;
+    b.addEventListener('click',()=>{selected=i;renderTabs();renderPanel();});
+    tabs.appendChild(b);
+  });
+  counter.textContent=completed.filter(Boolean).length;
+}
+function renderPanel(){
+  const d=days[selected];
+  panel.innerHTML='';
+  const top=document.createElement('div');top.className='sessiontop';
+  const left=document.createElement('div');
+  left.innerHTML='<strong style="font-size:18px">'+d.title+'</strong><div class="muted" style="margin-top:3px;font-size:12px;font-weight:800">CARGA: '+d.load+'</div>';
+  const mark=document.createElement('button');mark.type='button';mark.textContent=completed[selected]?'Marcar pendiente':'Marcar completado';
+  mark.addEventListener('click',()=>{completed[selected]=!completed[selected];saveCompleted();renderTabs();renderPanel();});
+  top.append(left,mark);
+  const ul=document.createElement('ul');
+  d.items.forEach(x=>{const li=document.createElement('li');li.textContent=x;ul.appendChild(li);});
+  panel.append(top,ul);
+}
+
+const kpis=[
+['Peso','112.1 kg','103–106 kg · 3m'],['Cintura','115 cm','106–110 cm · 3m'],
+['Sentadilla','80 kg','95–105 kg · 3m'],['Banca','60 kg','70–75 kg · 3m'],
+['Press militar','40 kg','45 kg · 3m'],['Dominadas','3','8 · 3m'],
+['Standing vertical','36 cm','40 cm · 3m'],['Approach vertical','39 cm','43 cm · 3m']
+];
+let showTargets=false;
+function renderKpis(){
+  const list=document.getElementById('kpiList');list.innerHTML='';
+  kpis.forEach(k=>{
+    const r=document.createElement('div');r.className='kpi';
+    r.innerHTML='<div><strong>'+k[0]+'</strong><div class="muted" style="font-size:12px">Baseline: '+k[1]+'</div></div><div style="text-align:right;font-weight:800">'+(showTargets?k[2]:'—')+'</div>';
+    list.appendChild(r);
+  });
+  document.getElementById('toggleKpi').textContent=showTargets?'Ocultar metas':'Ver metas';
+}
+document.getElementById('toggleKpi').addEventListener('click',()=>{showTargets=!showTargets;renderKpis();});
+
+const ids=['weight','adherence','fatigue','backPain'];
+ids.forEach(id=>{
+  const el=document.getElementById(id);
+  el.value=localStorage.getItem('road95_'+id)||'';
+  el.addEventListener('input',()=>localStorage.setItem('road95_'+id,el.value));
+});
+
+document.getElementById('weeklyForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const a=Number(document.getElementById('adherence').value);
+  const f=Number(document.getElementById('fatigue').value);
+  const p=Number(document.getElementById('backPain').value);
+  const badge=document.getElementById('readinessBadge'),msg=document.getElementById('weeklyMessage');
+  if(![a,f,p].every(Number.isFinite)||a<0||a>100||f<0||f>10||p<0||p>10){
+    badge.textContent='Datos incompletos';msg.textContent='Introduce adherencia 0–100, fatiga 0–10 y dolor lumbar 0–10.';return;
+  }
+  let status='🟢 PROGRESS',text='Semana apta para continuar; progresa sólo si técnica y RIR también lo permiten.';
+  if(p>=6||f>=8||a<50){status='🔴 ADJUST';text='La carga necesita revisión antes de progresar.';}
+  else if(p>=4||f>=6||a<75){status='🟡 HOLD';text='Mantén o reduce volumen; no persigas PR esta semana.';}
+  badge.textContent=status;msg.textContent=text;
+  localStorage.setItem('road95_status',status);localStorage.setItem('road95_statusmsg',text);
+});
+document.getElementById('resetWeek').addEventListener('click',()=>{
+  completed=[false,false,false,false,false,false,false];saveCompleted();
+  ids.forEach(id=>{document.getElementById(id).value='';localStorage.removeItem('road95_'+id);});
+  localStorage.removeItem('road95_status');localStorage.removeItem('road95_statusmsg');
+  document.getElementById('readinessBadge').textContent='Sin evaluar';
+  document.getElementById('weeklyMessage').textContent='Usaremos estos datos como guía operativa del entrenamiento.';
+  selected=0;renderTabs();renderPanel();
+});
+const savedStatus=localStorage.getItem('road95_status');
+if(savedStatus){
+  document.getElementById('readinessBadge').textContent=savedStatus;
+  document.getElementById('weeklyMessage').textContent=localStorage.getItem('road95_statusmsg')||'';
+}
+renderTabs();renderPanel();renderKpis();
+</script>
+</body>
+</html>

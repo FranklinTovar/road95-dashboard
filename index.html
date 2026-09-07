@@ -90,7 +90,13 @@
       <p class="muted">Bloque inicial · 8 semanas · Inicio 31/08/2026</p>
       <span class="pill">Sistema operativo de entrenamiento</span>
     </div>
-    <div class="card"><div class="eyebrow">Peso baseline</div><div class="metric">112.1 <small>kg</small></div><div class="muted">Checkpoint: 95 kg</div></div>
+    <div class="card">
+      <div class="eyebrow">Peso actual</div>
+      <div class="metric">109.0 <small>kg</small></div>
+      <div class="muted">Baseline: 112.1 kg · Cambio: −3.1 kg</div>
+      <div class="track" style="margin-top:10px"><div class="fill" style="width:18.1%"></div></div>
+      <div class="note">18.1% del camino 112.1 → 95 kg · Restan 14.0 kg</div>
+    </div>
     <div class="card"><div class="eyebrow">Approach jump</div><div class="metric">39 <small>cm</small></div><div class="muted">Meta 12m: 50+ cm</div></div>
   </section>
 
@@ -126,11 +132,11 @@
 
   <section class="panel" style="margin-top:14px">
     <div class="sessiontop">
-      <div><h2>Weekly Check</h2><div class="muted">Completa el domingo para obtener una recomendación operativa.</div></div>
+      <div><h2>Weekly Check</h2><div class="muted">Completa el domingo para obtener una recomendación operativa. Peso actual de referencia: 109.0 kg.</div></div>
       <span id="readinessBadge" class="pill">Sin evaluar</span>
     </div>
     <form id="weeklyForm">
-      <label>Peso promedio (kg)<input id="weight" type="number" min="60" max="180" step="0.1" placeholder="112.1"></label>
+      <label>Peso promedio (kg)<input id="weight" type="number" min="60" max="180" step="0.1" placeholder="109.0"></label>
       <label>Adherencia (%)<input id="adherence" type="number" min="0" max="100" step="1" placeholder="85"></label>
       <label>Fatiga general (0–10)<input id="fatigue" type="number" min="0" max="10" step="1" placeholder="4"></label>
       <label>Dolor lumbar (0–10)<input id="backPain" type="number" min="0" max="10" step="1" placeholder="2"></label>
@@ -201,7 +207,7 @@ function renderPanel(){
 }
 
 const kpis=[
-['Peso','112.1 kg','103–106 kg · 3m'],['Cintura','115 cm','106–110 cm · 3m'],
+['Peso','112.1 kg · actual 109.0 kg','103–106 kg · 3m'],['Cintura','115 cm','106–110 cm · 3m'],
 ['Sentadilla','80 kg','95–105 kg · 3m'],['Banca','60 kg','70–75 kg · 3m'],
 ['Press militar','40 kg','45 kg · 3m'],['Dominadas','3','8 · 3m'],
 ['Standing vertical','36 cm','40 cm · 3m'],['Approach vertical','39 cm','43 cm · 3m']

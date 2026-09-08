@@ -1,0 +1,93 @@
+(() => {
+  const PROGRAM = [
+    {day:'Monday', title:'Strength A + Basketball', load:'MODERATE · 60–70 MIN', purpose:'Build strength without compromising the evening basketball session.', exercises:[
+      ['Back Squat','squat'],['Bench Press','bench'],['Barbell Row','row'],['Romanian Deadlift','rdl'],['Pull-ups','pullupsMon'],['Band Lateral Raise','lateral'],['Dead Bug','deadbug'],['Basketball','basketMon']]},
+    {day:'Tuesday', title:'Recovery + Basketball', load:'LOW · 20–30 MIN', purpose:'Absorb Monday’s load and arrive functional for basketball.', exercises:[
+      ['Easy Walk','walk'],['Ankle Rocks','ankle'],['90/90 Hip Rotations','hips'],['Cat-Camel','cat'],['Thoracic Rotations','thoracic'],['Dynamic Hip-Flexor Stretch','hipflexor'],['Wall Slides','wall'],['Easy Walk — Finish','walkEnd'],['Basketball','basketTue']]},
+    {day:'Wednesday', title:'Motor / Aerobic Base', load:'RPE 3–4 · CONVERSATIONAL', purpose:'Build aerobic capacity and improve recovery between efforts.', exercises:[
+      ['Easy Aerobic Work','motor'],['Run–Walk Option','runwalk'],['Side Plank','sideplank']]},
+    {day:'Thursday', title:'Movement & Robustness + Basketball', load:'LOW · 30–40 MIN', purpose:'Build tissue capacity, control and tolerance without unnecessary fatigue.', exercises:[
+      ['Calf Raise','calf'],['Bent-Knee / Soleus Raise','soleus'],['Tibialis Raise','tibialis'],['Split Squat Isometric','splitiisometric'],['Single-Leg Balance','balance'],['Glute Bridge','bridge'],['Lateral Band Walk','bandwalk'],['Copenhagen — Short Lever','copenhagen'],['Pallof Press','pallof'],['Mobility Flow','mobility'],['Basketball','basketThu']]},
+    {day:'Friday', title:'Strength B + Power', load:'PRIMARY STRENGTH DAY · 70–85 MIN', purpose:'The main weekly strength and power stimulus.', exercises:[
+      ['Vertical Jump','jump'],['Deadlift','deadlift'],['Overhead Press','ohp'],['Bulgarian Split Squat','bulgarian'],['Pull-ups','pullupsFri'],['Incline Bench Press','incline'],['Row','rowFri'],['Biceps Curl','curl'],['Triceps','triceps'],['Suitcase Carry','carry']]},
+    {day:'Saturday', title:'Athletic Development', load:'QUALITY · FULL RECOVERY', purpose:'Improve jumping, landing, acceleration, braking and defensive movement.', exercises:[
+      ['Snap Down','snap'],['Pogo Jumps','pogo'],['Broad Jump','broad'],['Lateral Bounds','bounds'],['Acceleration','accel'],['Deceleration','decel'],['Defensive Shuffle','shuffle'],['Bear Crawl','bear']]},
+    {day:'Sunday', title:'Off / Active Recovery', load:'RECOVERY', purpose:'Recover, review the week and prepare the next one.', exercises:[
+      ['Complete Rest','off'],['Optional Easy Walk','sundayWalk'],['Optional Gentle Mobility','sundayMobility'],['Weekly Check','weekly']]}
+  ];
+
+  const EXACT = {
+    squat:['Not prescribed','50 kg · 3×6 · RIR 2–3','50 kg · 3×7 · RIR 2–3','50 kg · 3×8 · RIR 2–3','60 kg · 3×6 · RIR 2–3','60 kg · 3×7 · RIR 2–3','60 kg · 3×8 · RIR 2–3','70 kg · 3×5–6 · only if earned','DELOAD · reduce strength stress 30–50%'],
+    bench:['Not prescribed','50 kg · 3×5 · RIR 2–3','50 kg · 3×6 · RIR 2–3','50 kg · 3×7 · RIR 2–3','50 kg · 3×8 · RIR 2–3','60 kg · 3×5 · only if earned','60 kg · 3×6 · only if earned','60 kg · 3×7 · only if earned','DELOAD · reduce strength stress 30–50%'],
+    deadlift:['Not prescribed','50 kg · 3×5','50 kg · 3×6','50 kg · 3×7','50 kg · 3×8','55 kg · 3×5','55 kg · 3×6','55 kg · 3×7','40–45 kg · 2×5 · RIR 4–5'],
+    ohp:['Not prescribed','25 kg · 3×5','25 kg · 3×6','25 kg · 3×7','25 kg · 3×8','27.5 kg · 3×5','27.5 kg · 3×6','27.5 kg · 3×7–8','20–22.5 kg · 2×5'],
+    pullupsMon:['Not prescribed','6 total','7 total','8 total','9 total','10 total','11 total','12 total','5–6 easy'],
+    pullupsFri:['Not prescribed','6 total','7 total','8 total','9 total','10 total','11–12 total','12–14 total','5–6 easy'],
+    motor:['Not prescribed','35 min','35–38 min','40 min','40–42 min','45 min','45–48 min','50 min maximum','30–35 min easy'],
+    sideplank:['Not prescribed','2×20 sec/side','2×20 sec/side','2×25 sec/side','2×25 sec/side','2×30 sec/side','2×30 sec/side','2×30 sec/side','2×20 sec easy'],
+    jump:['Not prescribed','3×3 quality','3×3 quality','3×3 quality','3×3 quality','3×3 quality','3×3 quality','3×3 quality','2×2 fresh']
+  };
+
+  const RULES = {
+    row:'3×8 → 9 → 10; then add 2.5–5 kg and return to 8 · RIR 2–3', rdl:'2×8 → 9 → 10; then add 2.5–5 kg · RIR 3',
+    lateral:'2×12 → 13 → 14 → 15; then increase band tension', deadbug:'3×6 → 7 → 8/side; then progress control',
+    calf:'3×12–15', soleus:'3×12–15', tibialis:'3×15–20', splitiisometric:'2×20 → 30 sec/side', balance:'2×30 → 45 sec', bridge:'3×12 → 15', bandwalk:'2×10 → 15 steps/side', copenhagen:'2×15 → 20 → 25 → 30 sec/side', pallof:'2×10 → 12 → 15/side',
+    bulgarian:'3×8 → 9 → 10 → 11 → 12/side; then increase resistance', incline:'3×8 → 9 → 10; then add 2–2.5 kg', rowFri:'3×8 → 9 → 10; then add load', curl:'2–3×10–12; increase resistance after 12 is comfortable', triceps:'2–3×10–12; increase resistance after 12 is comfortable', carry:'3×20 → 25 → 30 m/side; then increase load',
+    walk:'5 min easy', ankle:'2×10/side', hips:'2×8/side', cat:'8–10 reps', thoracic:'2×8/side', hipflexor:'2×30 sec/side', wall:'2×10', walkEnd:'5–10 min easy', runwalk:'2 min jog + 2 min walk; gradually increase jogging proportion', mobility:'Ankle + 90/90 hip + thoracic rotation', off:'Complete rest', sundayWalk:'20–30 min easy', sundayMobility:'5–10 min easy'
+  };
+
+  const WEEK_NAMES=['Week 0 · Partial Start','Week 1 · Adaptation','Week 2 · Adaptation','Week 3 · Build','Week 4 · Build','Week 5 · Development','Week 6 · Development','Week 7 · Strong Week','Week 8 · Deload'];
+  const STORE='road95_training_log_v1';
+  let state={week:0,day:1,logs:{},session:{}};
+  try{state={...state,...JSON.parse(localStorage.getItem(STORE)||'{}')}}catch(e){}
+  const $=s=>document.querySelector(s);
+  const save=()=>localStorage.setItem(STORE,JSON.stringify(state));
+  const prescription=(id,week)=>EXACT[id]?.[week] || RULES[id] || 'Pending Direction General prescription';
+  const sessionKey=()=>`${state.week}-${state.day}`;
+
+  function translateChrome(){
+    document.documentElement.lang='en'; document.title='ROAD 95 — Foundation Athlete';
+    const map=[['.side .nav button:nth-child(1)','⌂ Today'],['.side .nav button:nth-child(2)','↗ Training'],['.side .nav button:nth-child(3)','↟ Load & Periodization'],['.side .nav button:nth-child(4)','▦ All Areas'],['header h1','Good morning, Franklin'],['header p','Week 0 · Official start next week']];
+    map.forEach(([s,t])=>{const e=$(s);if(e)e.textContent=t});
+    const phase=$('.phase');if(phase)phase.innerHTML='<small>BLOCK PREPARATION</small><b>Week 0 · Partial start</b>';
+    document.querySelectorAll('.mobile button').forEach((b,i)=>b.textContent=['TODAY','TRAIN','LOAD','AREAS'][i]||b.textContent);
+    const areas=$('#areas');if(areas)areas.innerHTML=`<div class="title"><div class="eye">CONTROL CENTER</div><h2>All Areas</h2><p class="sub">Open each area for complete information.</p></div><div class="cards"><button class="card" data-go="training"><small>01 →</small><b>Training</b><span>Full exercises by week and day, plus actual performance logs.</span></button><button class="card" data-go="load"><small>02 →</small><b>Load & Periodization</b><span>Planned progression, Week 8 deload and decision rules.</span></button><button class="card"><small>03 →</small><b>Weight & Energy</b><span>Weight trend, expenditure and calorie targets.</span></button><button class="card"><small>04 →</small><b>Progress & KPIs</b><span>Strength, engine, jump and adherence.</span></button><button class="card"><small>05 →</small><b>Weekly Check</b><span>PROGRESS, HOLD or ADJUST.</span></button><button class="card"><small>06 →</small><b>Foundation</b><span>Exit gates, recovery and readiness.</span></button></div>`;
+  }
+
+  function renderPeriodization(){
+    const root=$('#load');if(!root)return;
+    const squat=EXACT.squat,bench=EXACT.bench;
+    root.innerHTML=`<div class="title"><div class="eye">BLOCK PROGRESSION</div><h2>Load & Periodization</h2><p class="sub">The plan is visible in advance, but actual results and Direction General decide whether to PROGRESS, HOLD or ADJUST.</p></div><div class="panel"><div class="weeks" id="periodWeeks"></div><div class="week-info" id="periodInfo"></div><div class="table" id="periodTable"></div></div>`;
+    let selected=state.week;
+    const draw=()=>{
+      $('#periodWeeks').innerHTML=WEEK_NAMES.map((x,i)=>`<button data-pw="${i}" class="${i===selected?'active':''} ${i===8?'deload':''}">W${i}<br>${i===8?'DELOAD':i===0?'PARTIAL':'PLAN'}</button>`).join('');
+      document.querySelectorAll('[data-pw]').forEach(b=>b.onclick=()=>{selected=+b.dataset.pw;draw()});
+      const descriptions=['Partial familiarization week; not part of the official block.','Establish working loads and clean technique.','Add repetitions only if Week 1 was earned.','Continue double progression.','Complete the first range or reset after a load increase.','Build on the new working level.','Continue based on actual performance and recovery.','Strongest tolerable week; no max testing.','Keep the same movements and reduce strength stress by about 30–50%, mainly through volume.'];
+      $('#periodInfo').innerHTML=`<strong>${WEEK_NAMES[selected]}</strong><p>${descriptions[selected]}</p>`;
+      const rows=[['Back Squat',squat[selected]],['Bench Press',bench[selected]],['Deadlift',EXACT.deadlift[selected]],['Overhead Press',EXACT.ohp[selected]],['Monday Pull-ups',EXACT.pullupsMon[selected]],['Friday Pull-ups',EXACT.pullupsFri[selected]],['Aerobic Base',EXACT.motor[selected]],['Vertical Jump',EXACT.jump[selected]]];
+      $('#periodTable').innerHTML='<div class="th">Exercise</div><div class="th">Prescription</div><div class="th">Actual result</div><div class="th">Decision</div>'+rows.map((r,i)=>{const found=state.logs[`${selected}-${i<2?0:i<4?4:i===4?0:i===5?4:i===6?2:4}-${i===0?'squat':i===1?'bench':i===2?'deadlift':i===3?'ohp':i===4?'pullupsMon':i===5?'pullupsFri':i===6?'motor':'jump'}`];return `<div><b>${r[0]}</b></div><div>${r[1]}</div><div>${found?`${found.weight||'—'} kg · ${found.reps||'—'} · RIR ${found.rir||'—'}`:'Not logged'}</div><div>${selected===0?'Observe':'Pending review'}</div>`}).join('');
+    };draw();
+  }
+
+  function renderToday(){
+    const target=$('#today'); if(!target)return;
+    target.innerHTML=`<div class="hero"><div class="eye">TODAY · ${PROGRAM[state.day].title.toUpperCase()}</div><h2>${PROGRAM[state.day].title}</h2><p>${PROGRAM[state.day].purpose}</p><div class="pills"><span class="pill">${PROGRAM[state.day].load}</span><span class="pill">${WEEK_NAMES[state.week]}</span></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin-top:14px"><div class="panel"><small class="sub">CURRENT WEIGHT</small><h2>109.0 kg</h2><small class="sub">−3.1 kg from baseline</small></div><div class="panel"><small class="sub">CHECKPOINT</small><h2 style="color:var(--a)">95 kg</h2><small class="sub">14.0 kg remaining</small></div><div class="panel"><small class="sub">APPROACH JUMP</small><h2>39 cm</h2><small class="sub">3-month target: 43 cm</small></div><div class="panel"><small class="sub">BLOCK</small><h2>Week ${state.week}</h2><small class="sub">Week 8: Deload</small></div></div><div class="panel"><div class="session-head"><div><b>Today’s session</b><p class="sub">Open the complete plan and log actual performance.</p></div><button class="primary" id="openToday">Open →</button></div></div>`;
+    $('#openToday').onclick=()=>document.querySelector('[data-go="training"]').click();
+  }
+
+  function renderTraining(){
+    const root=$('#training'); if(!root)return; const p=PROGRAM[state.day], sk=sessionKey();
+    root.innerHTML=`<div class="title"><div class="eye">PLAN + HISTORY</div><h2>Training by week and day</h2><p class="sub">Choose any week and day. Planned work comes from Direction General; actual work is yours to record.</p></div><div class="panel"><div class="weeks" id="logWeeks"></div><div class="tabs" id="logDays"></div><div class="session-head"><div><div class="eye">${WEEK_NAMES[state.week]} · ${p.load}</div><h2>${p.day} · ${p.title}</h2><p class="sub">${p.purpose}</p></div><button class="primary" id="saveSession">Save Session</button></div><div class="list" id="logExercises"></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px"><label class="sub">SESSION PERFORMANCE %<input id="sessionPct" type="number" min="0" max="100" value="${state.session[sk]?.pct||''}" placeholder="50–100" style="width:100%;padding:10px;background:var(--d);color:white;border:1px solid var(--l);border-radius:9px"></label><label class="sub">PAIN 0–10<input id="sessionPain" type="number" min="0" max="10" value="${state.session[sk]?.pain||''}" style="width:100%;padding:10px;background:var(--d);color:white;border:1px solid var(--l);border-radius:9px"></label><label class="sub">GOAL MET?<select id="goalMet" style="width:100%;padding:10px;background:var(--d);color:white;border:1px solid var(--l);border-radius:9px"><option>Pending</option><option>Yes</option><option>Partially</option><option>No</option></select></label></div><textarea class="note" id="sessionNotes" placeholder="Technique, fatigue, discomfort, basketball load or anything Direction General should review…">${state.session[sk]?.notes||''}</textarea></div>`;
+    $('#logWeeks').innerHTML=WEEK_NAMES.map((x,i)=>`<button data-lw="${i}" class="${i===state.week?'active':''} ${i===8?'deload':''}">W${i}<br>${i===8?'DELOAD':i===0?'PARTIAL':'PLAN'}</button>`).join('');
+    document.querySelectorAll('[data-lw]').forEach(b=>b.onclick=()=>{state.week=+b.dataset.lw;save();renderTraining();renderToday()});
+    $('#logDays').innerHTML=PROGRAM.map((x,i)=>`<button data-ld="${i}" class="${i===state.day?'active':''}">${x.day.slice(0,3)}</button>`).join('');
+    document.querySelectorAll('[data-ld]').forEach(b=>b.onclick=()=>{state.day=+b.dataset.ld;save();renderTraining();renderToday()});
+    $('#logExercises').innerHTML=p.exercises.map((e,i)=>{const k=`${sk}-${e[1]}`,v=state.logs[k]||{},prev=state.logs[`${state.week-1}-${state.day}-${e[1]}`];return `<div class="ex" style="grid-template-columns:1fr"><div><b>${e[0]}</b><div class="sub">PLANNED: ${prescription(e[1],state.week)}</div>${prev?`<div style="color:var(--a);font-size:9px">PREVIOUS: ${prev.weight||'—'} kg · ${prev.reps||'—'} · RIR ${prev.rir||'—'} · ${prev.feel||'—'}%</div>`:''}</div><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"><input data-f="weight" data-k="${k}" type="number" step="0.5" value="${v.weight||''}" placeholder="kg"><input data-f="sets" data-k="${k}" type="number" value="${v.sets||''}" placeholder="sets"><input data-f="reps" data-k="${k}" value="${v.reps||''}" placeholder="reps: 7/7/6"><input data-f="rir" data-k="${k}" type="number" min="0" max="10" value="${v.rir||''}" placeholder="RIR"><input data-f="feel" data-k="${k}" type="number" min="0" max="100" value="${v.feel||''}" placeholder="feel %"></div><input data-f="note" data-k="${k}" value="${v.note||''}" placeholder="Exercise notes" style="width:100%"></div>`}).join('');
+    root.querySelectorAll('.ex input').forEach(i=>{i.style.cssText+=';padding:8px;background:#090d0a;color:white;border:1px solid var(--l);border-radius:7px;min-width:0';i.onchange=()=>{state.logs[i.dataset.k]=state.logs[i.dataset.k]||{};state.logs[i.dataset.k][i.dataset.f]=i.value;save()}});
+    const gm=$('#goalMet'); if(state.session[sk]?.goal)gm.value=state.session[sk].goal;
+    $('#saveSession').onclick=()=>{state.session[sk]={pct:$('#sessionPct').value,pain:$('#sessionPain').value,goal:gm.value,notes:$('#sessionNotes').value};save();$('#saveSession').textContent='Saved ✓'};
+  }
+
+  translateChrome(); renderToday(); renderTraining(); renderPeriodization();
+  document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===b.dataset.go));document.querySelectorAll('[data-go]').forEach(x=>x.classList.toggle('active',x.dataset.go===b.dataset.go));window.scrollTo(0,0)});
+})();

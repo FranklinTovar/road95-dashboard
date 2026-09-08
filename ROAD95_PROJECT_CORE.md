@@ -67,7 +67,7 @@ This behavior must be implemented only after Franklin approves it.
 
 Official reference supplied by Franklin: `menu_completo_7_dias copy.pdf`.
 
-Status: memorized as project reference, but not yet placed in the dashboard. Franklin will later decide whether it becomes a button, tab, or another module.
+Status: approved for integration as a `NUTRITION` button in the lower dashboard area. The button opens a secondary page containing the seven-day meal plan organized by breakfast, lunch, dinner, and snacks, plus a categorized shopping list with device-local checkboxes.
 
 The menu contains breakfast, lunch, dinner, and a snack for seven days. Main meals are designed below approximately 800 kcal with at least 40 g protein; snacks are lighter.
 
@@ -141,7 +141,7 @@ The current version includes the approved front, 50/50 training/carousel layout,
 ## Pending decisions and future work
 
 - Approve and implement automatic calendar-aware Today / Next Session behavior.
-- Decide how the seven-day nutrition menu enters the dashboard: button, tab, or dedicated module.
+- Continue refining the Nutrition page and shopping quantities after the calorie target and portions are approved.
 - Add bodyweight-driven calorie and expenditure recalculation rules after the required inputs and method are approved.
 - Continue adding exercise-specific monochrome thumbnails without changing the visual style.
 - Refine tablet and phone layouts after the desktop front is stable.

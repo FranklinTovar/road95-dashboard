@@ -105,7 +105,17 @@
     const openTraining=()=>document.querySelector('[data-go="training"]').click();$('#openToday').onclick=openTraining;$('#weeklyHistory').onclick=openTraining;$('#nextSession').onclick=()=>{state.day=next;save();renderTraining();renderTodayV2();openTraining()};$('#basketToggle').onclick=()=>{state.basketball[bk]=!playing;save();renderTodayV2()};$('#weightOrb').onclick=()=>{const h=$('#weightHud');h.innerHTML=`<div class="r95-hud-head"><div><div class="eye">WEIGHT SYSTEM</div><h3>109.25 kg · September 7</h3></div><button class="r95-hud-close">CLOSE ×</button></div><div class="r95-hud-grid"><div class="r95-hud-cell"><small>ROAD 95 BASELINE</small><b>112.10 kg</b></div><div class="r95-hud-cell"><small>CHANGE</small><b style="color:var(--a)">−2.85 kg</b></div><div class="r95-hud-cell"><small>HISTORICAL · MAY 8</small><b>118.25 kg</b></div><div class="r95-hud-cell"><small>CHECKPOINT</small><b>95 kg</b></div><div class="r95-hud-cell"><small>REMAINING</small><b>14.25 kg</b></div></div><button class="primary" id="openFoundation" style="margin-top:12px">Open Foundation Athlete →</button>`;h.classList.add('open');h.querySelector('.r95-hud-close').onclick=()=>h.classList.remove('open');$('#openFoundation').onclick=()=>document.querySelector('[data-go="recovery"]').click()};
   }
 
+  function installCarouselStyles(){
+    if(document.getElementById('r95-carousel-styles'))return;
+    const s=document.createElement('style');s.id='r95-carousel-styles';s.textContent=`
+      .r95-topchips{display:grid;grid-template-columns:1.5fr .7fr .55fr;gap:10px;margin-bottom:14px}.r95-topchip{padding:11px 14px;border:1px solid #334035;border-radius:12px;background:#101511;color:white;text-align:left}.r95-topchip small{display:block;color:#8e988f;font-size:8px;letter-spacing:.12em}.r95-topchip b{display:block;margin-top:4px;font-size:13px}.r95-dashboard-grid{display:grid;grid-template-columns:1.55fr .8fr;gap:14px}.r95-media{position:relative;min-height:310px;border:1px solid #536b3a;border-radius:18px;overflow:hidden;background:#080b09}.r95-media img,.r95-media video{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}.r95-media:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(0,0,0,.62));pointer-events:none}.r95-media-controls{position:absolute;z-index:2;left:12px;right:12px;bottom:12px;display:flex;align-items:center;justify-content:space-between}.r95-media-add{border:1px solid rgba(255,255,255,.55);background:rgba(7,10,8,.78);color:white;border-radius:10px;padding:8px 10px;font-size:9px;cursor:pointer}.r95-media-dots{display:flex;gap:5px}.r95-media-dots i{width:7px;height:7px;border-radius:50%;background:#697069}.r95-media-dots i:first-child{background:var(--a);box-shadow:0 0 8px var(--a)}
+      @media(max-width:850px){.r95-topchips{grid-template-columns:1fr 1fr}.r95-topchips .r95-topchip:first-child{grid-column:1/-1}.r95-dashboard-grid{grid-template-columns:1fr}.r95-media{min-height:330px}}
+      @media(max-width:520px){.r95-topchips{grid-template-columns:1fr}.r95-topchips .r95-topchip:first-child{grid-column:auto}.r95-media{min-height:285px}}
+    `;document.head.appendChild(s)
+  }
+
   function renderTodayV3(){
+    installCarouselStyles();
     const target=$('#today');
     if(!target)return;
     const p=PROGRAM[state.day],next=(state.day+1)%7,bk=`${state.week}-${state.day}`;
@@ -116,17 +126,22 @@
         <div><div class="eye">ROAD 95 · DAILY CONTROL CENTER</div><h2 style="margin:4px 0">Foundation Athlete</h2></div>
         <div class="r95-live"><i></i><span>READY</span></div>
       </div>
-      <div class="r95-hero-grid">
+      <div class="r95-topchips">
+        <button class="r95-topchip" id="nextSession"><small>NEXT SESSION · OPEN</small><b>${PROGRAM[next].day} · ${PROGRAM[next].title}</b></button>
+        <div class="r95-topchip"><small>BLOCK POSITION</small><b>WEEK ${state.week} / 8</b></div>
+        <button class="r95-topchip" id="openFoundation"><small>CURRENT WEIGHT</small><b style="color:var(--a)">109.25 KG</b></button>
+      </div>
+      <div class="r95-dashboard-grid">
         <div class="hero r95-main-hero">
           <div class="eye">TODAY · ${p.day.toUpperCase()}</div>
           <h2>${playing?p.title:p.title.replace(' + Basketball','')}</h2><p>${p.purpose}</p>
           <div class="pills"><span class="pill">${p.load}</span><span class="pill">${WEEK_NAMES[state.week]}</span><button class="pill" id="basketToggle" style="color:${playing?'var(--a)':'#ff9a91'};cursor:pointer">BASKETBALL · ${playing?'PLAYING':'NOT PLAYING'}</button></div>
           <button class="primary r95-today-action" id="openTodayList">Open Training Today ↓</button>
         </div>
-        <div class="r95-side-status">
-          <button class="r95-mini" id="nextSession" style="color:white;text-align:left;cursor:pointer"><small>NEXT SESSION · OPEN</small><strong>${PROGRAM[next].day} · ${PROGRAM[next].title}</strong></button>
-          <div class="r95-mini"><small>BLOCK POSITION</small><strong>W${state.week} / 8</strong><div style="height:5px;background:#273028;border-radius:9px;margin-top:9px"><i style="display:block;width:${state.week/8*100}%;height:100%;background:var(--a);border-radius:9px"></i></div></div>
-          <div class="r95-mini"><small>ROAD 95 CHECKPOINT</small><strong style="font-size:28px;color:var(--a)">95 KG</strong><span class="sub">14.25 kg remaining</span></div>
+        <div class="r95-media" id="athleteCarousel">
+          <img src="assets/road95-athlete.svg" alt="Franklin training basketball in the ROAD 95 performance gym">
+          <div class="r95-media-controls"><div class="r95-media-dots"><i></i><i></i><i></i></div><button class="r95-media-add" id="addMedia">＋ ADD PHOTO / VIDEO</button></div>
+          <input type="file" id="mediaInput" accept="image/*,video/*" hidden>
         </div>
       </div>
       <section class="panel" id="todayExercisePanel" style="display:none">
@@ -140,6 +155,8 @@
     $('#nextSession').onclick=()=>{state.day=next;save();renderTraining();renderTodayV3();goTraining()};
     $('#basketToggle').onclick=()=>{state.basketball[bk]=!playing;save();renderTodayV3()};
     $('#openFoundation').onclick=()=>document.querySelector('[data-go="recovery"]').click();
+    $('#addMedia').onclick=()=>$('#mediaInput').click();
+    $('#mediaInput').onchange=e=>{const file=e.target.files[0];if(!file)return;const frame=$('#athleteCarousel'),old=frame.querySelector('img,video'),url=URL.createObjectURL(file),media=document.createElement(file.type.startsWith('video/')?'video':'img');media.src=url;if(media.tagName==='VIDEO'){media.controls=true;media.autoplay=true;media.muted=true;media.loop=true}old.replaceWith(media)};
     $('#openTodayList').onclick=()=>{const panel=$('#todayExercisePanel');const opening=panel.style.display==='none';panel.style.display=opening?'block':'none';$('#openTodayList').textContent=opening?'Close Today’s Training ↑':'Open Training Today ↓';if(opening)panel.scrollIntoView({behavior:'smooth',block:'start'})};
     target.querySelectorAll('[data-quick]').forEach(button=>button.onclick=()=>{const editor=target.querySelector(`[data-editor="${button.dataset.quick}"]`);editor.style.display=editor.style.display==='none'?'block':'none'});
     target.querySelectorAll('[data-qsave]').forEach(button=>button.onclick=()=>{const id=button.dataset.qsave,editor=target.querySelector(`[data-editor="${id}"]`),key=`${sk}-${id}`;state.logs[key]=state.logs[key]||{};editor.querySelectorAll('[data-qf]').forEach(input=>state.logs[key][input.dataset.qf]=input.value);save();button.textContent='Saved ✓';setTimeout(()=>renderTodayV3(),450)});
